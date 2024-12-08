@@ -30,8 +30,9 @@ class Node:
         updated = False
         for neighbor, distance in self.neighbors.items():
             for dest, dist in neighbor.routing_table.items():
-                if dest not in self.routing_table or self.routing_table[dest] > distance + dist:
-                    self.routing_table[dest] = distance + dist
+                new_distance = distance + dist
+                if dest not in self.routing_table or self.routing_table[dest] > new_distance:
+                    self.routing_table[dest] = new_distance
                     updated = True
         return updated
 
@@ -49,6 +50,8 @@ node_A = Node('A')
 node_B = Node('B')
 node_C = Node('C')
 node_D = Node('D')
+node_E = Node('E')
+node_F = Node('F')
 
 # Aggiungere i vicini
 node_A.add_neighbor(node_B, 1)
@@ -57,8 +60,12 @@ node_B.add_neighbor(node_C, 2)
 node_C.add_neighbor(node_B, 2)
 node_C.add_neighbor(node_D, 1)
 node_D.add_neighbor(node_C, 1)
+node_D.add_neighbor(node_E, 3)
+node_E.add_neighbor(node_D, 3)
+node_E.add_neighbor(node_F, 2)
+node_F.add_neighbor(node_E, 2)
 
-nodes = [node_A, node_B, node_C, node_D]
+nodes = [node_A, node_B, node_C, node_D, node_E, node_F]
 converged = False
 iteration = 0
 max_iterations = 100  # Limite massimo di iterazioni per evitare loop infiniti
