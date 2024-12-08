@@ -18,6 +18,8 @@ class Node:
         :param neighbor: Nodo vicino
         :param distance: Distanza al nodo vicino
         """
+        if distance < 0:
+            raise ValueError("La distanza non può essere negativa")
         self.neighbors[neighbor] = distance
         self.routing_table[neighbor.name] = distance
 
@@ -59,15 +61,19 @@ node_D.add_neighbor(node_C, 1)
 nodes = [node_A, node_B, node_C, node_D]
 converged = False
 iteration = 0
+max_iterations = 100  # Limite massimo di iterazioni per evitare loop infiniti
 
 # Aggiornare le tabelle di routing
-while not converged:
+while not converged and iteration < max_iterations:
     logging.info(f"Iteration {iteration}: Checking for convergence")
     converged = True
     for node in nodes:
         if node.update_routing_table():
             converged = False
     iteration += 1
+
+if iteration == max_iterations:
+    logging.warning("Reached the maximum iteration limit. There might be a loop in the network.")
 
 # Stampare le tabelle di routing
 for node in nodes:
