@@ -34,3 +34,25 @@ class Node:
         for dest, dist in self.routing_table.items():
             print(f"Destination: {dest}, Distance: {dist}")
         print()
+
+# Creare i nodi
+node_A = Node('A')
+node_B = Node('B')
+node_C = Node('C')
+
+# Aggiungere i vicini
+node_A.add_neighbor(node_B, 1)
+node_B.add_neighbor(node_A, 1)
+node_B.add_neighbor(node_C, 2)
+node_C.add_neighbor(node_B, 2)
+
+# Aggiornare le tabelle di routing
+for _ in range(3):  # Eseguire più iterazioni per garantire la convergenza
+    node_A.update_routing_table()
+    node_B.update_routing_table()
+    node_C.update_routing_table()
+
+# Stampare le tabelle di routing
+node_A.print_routing_table()
+node_B.print_routing_table()
+node_C.print_routing_table()
