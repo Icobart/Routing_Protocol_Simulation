@@ -17,6 +17,15 @@ class Node:
         self.neighbors[neighbor] = distance
         self.routing_table[neighbor.name] = distance
 
+    def update_routing_table(self):
+        """
+        Aggiorna la tabella di routing del nodo in base alle informazioni ricevute dai vicini.
+        """
+        for neighbor, distance in self.neighbors.items():
+            for dest, dist in neighbor.routing_table.items():
+                if dest not in self.routing_table or self.routing_table[dest] > distance + dist:
+                    self.routing_table[dest] = distance + dist
+
     def print_routing_table(self):
         """
         Stampa la tabella di routing del nodo.
